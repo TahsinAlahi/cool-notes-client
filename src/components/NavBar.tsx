@@ -9,7 +9,7 @@ function NavBar() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <nav className="border-gray-200 bg-blue-600 dark:bg-gray-900">
+    <nav className="mb-6 border-gray-200 bg-blue-600 dark:bg-gray-900 lg:mb-5">
       <div className="mx-auto flex max-w-screen-lg flex-wrap items-center justify-between p-4">
         <Link
           to="/"

@@ -1,9 +1,9 @@
-function Card() {
+function Card({ note }: { note: Note }) {
   return (
-    <div className="max-w-sm rounded-lg border border-gray-200 bg-yellow-100/70 p-3 shadow dark:border-gray-700 dark:bg-gray-800">
-      <div className="flex items-center justify-between gap-5">
+    <div className="w-full rounded-lg border border-gray-200 bg-yellow-100/70 p-3 shadow dark:border-gray-700 dark:bg-gray-800">
+      <div className="mb-3 flex items-center justify-between gap-5">
         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-          Noteworthy technology acquisitions 2021
+          {note.title}
         </h5>
         <div className="group cursor-pointer rounded-lg border border-gray-500 p-1 duration-150 hover:bg-black">
           <svg
@@ -19,8 +19,7 @@ function Card() {
         </div>
       </div>
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        Here are the biggest enterprise technology acquisitions of 2021 so far,
-        in reverse chronological order.
+        {note.text}
       </p>
     </div>
   );
