@@ -1,6 +1,6 @@
 function Card({ note }: { note: Note }) {
   return (
-    <div className="w-full rounded-lg border border-gray-200 bg-yellow-100/70 p-3 shadow dark:border-gray-700 dark:bg-gray-800">
+    <div className="flex h-44 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-yellow-100/70 p-3 shadow transition-shadow duration-150 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
       <div className="mb-3 flex items-center justify-between gap-5">
         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
           {note.title}
@@ -18,7 +18,10 @@ function Card({ note }: { note: Note }) {
           </svg>
         </div>
       </div>
-      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+      <p
+        className="flex-grow overflow-hidden whitespace-pre-line font-normal text-gray-700 dark:text-gray-400"
+        style={{ maskImage: "linear-gradient(180deg, #000 60%, transparent)" }}
+      >
         {note.text}
       </p>
     </div>
@@ -26,3 +29,4 @@ function Card({ note }: { note: Note }) {
 }
 
 export default Card;
+//
