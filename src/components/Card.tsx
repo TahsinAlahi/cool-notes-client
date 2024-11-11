@@ -1,6 +1,16 @@
+import { dateFormatter } from "../utils/dateFormatter";
+
 function Card({ note }: { note: Note }) {
+  let createdUpdatedTime: string;
+
+  if (note.updatedAt > note.createdAt) {
+    createdUpdatedTime = "Updated: " + dateFormatter(note.updatedAt);
+  } else {
+    createdUpdatedTime = "Created: " + dateFormatter(note.createdAt);
+  }
+
   return (
-    <div className="flex h-44 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-yellow-100/70 p-3 shadow transition-shadow duration-150 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
+    <div className="flex h-56 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-yellow-100/70 p-3 shadow transition-shadow duration-150 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
       <div className="mb-3 flex items-center justify-between gap-5">
         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
           {note.title}
@@ -19,11 +29,14 @@ function Card({ note }: { note: Note }) {
         </div>
       </div>
       <p
-        className="flex-grow overflow-hidden whitespace-pre-line font-normal text-gray-700 dark:text-gray-400"
+        className="mb-2 flex-grow overflow-hidden whitespace-pre-line font-normal text-gray-700 dark:text-gray-400"
         style={{ maskImage: "linear-gradient(180deg, #000 60%, transparent)" }}
       >
         {note.text}
       </p>
+      <div className="w-full border-t-2 border-yellow-800/20 py-1 pt-2 font-semibold text-gray-500">
+        {createdUpdatedTime}
+      </div>
     </div>
   );
 }
