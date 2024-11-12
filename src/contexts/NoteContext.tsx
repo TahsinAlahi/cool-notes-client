@@ -1,10 +1,37 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import * as NotesApi from "../network/notes_funcs";
 
-const NoteContext = createContext(null);
+interface Context {
+  notes: Note[];
+  handleUpdateOrNewNote: (note: Note) => void;
+}
 
-const value = null;
+const NoteContext = createContext<Context | undefined>(undefined);
 
 function NoteProvider({ children }: { children: React.ReactNode }) {
+  const [notes, setNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    async function getNotes() {
+      try {
+        const data = await NotesApi.fetchNote();
+
+        setNotes(data);
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+    }
+
+    getNotes();
+  }, []);
+
+  function handleUpdateOrNewNote(note: Note) {
+    setNotes((prevNotes) => [...prevNotes, note]);
+  }
+
+  const value = { notes, handleUpdateOrNewNote };
+
   return <NoteContext.Provider value={value}>{children}</NoteContext.Provider>;
 }
 

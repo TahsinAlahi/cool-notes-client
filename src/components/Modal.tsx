@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import * as NotesApi from "../network/notes_funcs";
+import { useNoteContext } from "../contexts/noteContext";
 
 interface ModalProps {
   handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
@@ -10,6 +11,8 @@ interface ModalProps {
 }
 
 function Modal({ handleNoteModal, noteModal }: ModalProps) {
+  const { handleUpdateOrNewNote } = useNoteContext();
+
   const titleRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
@@ -21,8 +24,9 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
         title: titleRef.current?.value as string,
         text: textRef?.current?.value,
       });
+      handleUpdateOrNewNote(res);
 
-      console.log(res);
+      handleNoteModal(null, false);
     }
   }
 
