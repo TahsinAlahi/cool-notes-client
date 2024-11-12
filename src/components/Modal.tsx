@@ -1,4 +1,18 @@
-function createNoteModal() {
+interface ModalProps {
+  handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
+  noteModal: {
+    type: "create" | "update" | null;
+    isOpen: boolean;
+  };
+}
+
+function Modal({ handleNoteModal, noteModal }: ModalProps) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    handleNoteModal(null, false);
+  }
+
   return (
     <>
       <div className="fixed left-0 right-0 top-0 z-50 flex h-full max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-50 md:inset-0">
@@ -6,16 +20,15 @@ function createNoteModal() {
           <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
             <div className="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Create Note
+                {noteModal.type === "create" ? "Create Note" : "Update Note"}
               </h3>
               <button
                 type="button"
                 className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="default-modal"
+                onClick={() => handleNoteModal(null, false)}
               >
                 <svg
                   className="h-3 w-3"
-                  aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 14 14"
@@ -32,7 +45,10 @@ function createNoteModal() {
               </button>
             </div>
 
-            <form className="flex w-full flex-col items-center justify-between gap-2 border-b p-4 dark:border-gray-600 md:p-5">
+            <form
+              className="flex w-full flex-col items-center justify-between gap-2 border-b p-4 dark:border-gray-600 md:p-5"
+              onSubmit={handleSubmit}
+            >
               <div className="flex w-3/4 flex-col gap-1">
                 <label htmlFor="" className="text-lg font-bold">
                   Title
@@ -66,4 +82,4 @@ function createNoteModal() {
   );
 }
 
-export default createNoteModal;
+export default Modal;
