@@ -3,7 +3,7 @@ import * as NotesApi from "../network/notes_funcs";
 
 interface Context {
   notes: Note[];
-  handleUpdateOrNewNote: (note: Note) => void;
+  handleUpdateOrNewNote: (note: Note, method: string) => void;
 }
 
 const NoteContext = createContext<Context | undefined>(undefined);
@@ -26,8 +26,10 @@ function NoteProvider({ children }: { children: React.ReactNode }) {
     getNotes();
   }, []);
 
-  function handleUpdateOrNewNote(note: Note) {
-    setNotes((prevNotes) => [...prevNotes, note]);
+  function handleUpdateOrNewNote(note: Note, method: string) {
+    if (method === "create") setNotes((prevNotes) => [...prevNotes, note]);
+    if (method === "delete")
+      setNotes((prevNotes) => prevNotes.filter((n) => n._id !== note._id));
   }
 
   const value = { notes, handleUpdateOrNewNote };

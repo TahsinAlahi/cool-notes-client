@@ -1,6 +1,9 @@
+import { useNoteContext } from "../contexts/noteContext";
+import { deleteNote } from "../network/notes_funcs";
 import { dateFormatter } from "../utils/dateFormatter";
 
 function Card({ note }: { note: Note }) {
+  const { handleUpdateOrNewNote } = useNoteContext();
   let createdUpdatedTime: string;
 
   if (note.updatedAt > note.createdAt) {
@@ -9,13 +12,27 @@ function Card({ note }: { note: Note }) {
     createdUpdatedTime = "Created: " + dateFormatter(note.createdAt);
   }
 
+  async function handleDelete(e: any) {
+    e.stopPropagation();
+    try {
+      await deleteNote(note);
+      handleUpdateOrNewNote(note, "delete");
+    } catch (err) {
+      console.error(err);
+      alert(err);
+    }
+  }
+
   return (
     <div className="flex h-56 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-yellow-100/70 p-3 text-left shadow transition-shadow duration-150 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
       <div className="mb-3 flex items-center justify-between gap-5">
         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
           {note.title}
         </h5>
-        <div className="group cursor-pointer rounded-lg border border-gray-500 p-1 duration-150 hover:bg-black">
+        <div
+          className="group cursor-pointer rounded-lg border border-gray-500 p-1 duration-150 hover:bg-black"
+          onClick={handleDelete}
+        >
           <svg
             className="fill-black group-hover:fill-white"
             width="24px"

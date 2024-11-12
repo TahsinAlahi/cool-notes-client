@@ -29,3 +29,7 @@ export async function createNote(note: NoteInput) {
 
   return res.json();
 }
+
+export async function deleteNote(note: Note) {
+  await fetchData(`/api/notes/${note._id}`, { method: "DELETE" });
+}

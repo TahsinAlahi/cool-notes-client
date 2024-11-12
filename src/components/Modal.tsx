@@ -24,7 +24,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
         title: titleRef.current?.value as string,
         text: textRef?.current?.value,
       });
-      handleUpdateOrNewNote(res);
+      handleUpdateOrNewNote(res, "create");
 
       handleNoteModal(null, false);
     }
