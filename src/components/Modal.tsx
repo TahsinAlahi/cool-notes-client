@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 interface ModalProps {
   handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
   noteModal: {
@@ -7,10 +9,12 @@ interface ModalProps {
 }
 
 function Modal({ handleNoteModal, noteModal }: ModalProps) {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const textRef = useRef<HTMLTextAreaElement>(null);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    handleNoteModal(null, false);
+    console.log(titleRef?.current?.value, textRef.current?.value);
   }
 
   return (
@@ -58,6 +62,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
                   placeholder="Note title"
                   required
                   className="w-full rounded-lg border border-gray-600 outline-none"
+                  ref={titleRef}
                 />
               </div>
               <div className="flex w-3/4 flex-col gap-1">
@@ -69,6 +74,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
                   rows={5}
                   required
                   className="w-full rounded-lg border border-gray-600 outline-none"
+                  ref={textRef}
                 />
               </div>
               <button className="mt-4 rounded-2xl bg-blue-700 px-7 py-1 text-lg font-semibold text-white hover:bg-blue-800 md:px-12">

@@ -24,8 +24,13 @@ function Homepage() {
   }
 
   return (
-    <div className="h-36 lg:mx-auto lg:max-w-screen-lg">
-      <button></button>
+    <div className="h-36 text-center lg:mx-auto lg:max-w-screen-lg">
+      <button
+        className="mb-4 rounded-xl bg-blue-700 px-5 py-2 text-center font-semibold text-white hover:bg-blue-800"
+        onClick={() => handleNoteModal("create", true)}
+      >
+        All new note
+      </button>
       <NoteCards />
       {NoteModal.isOpen && (
         <Modal handleNoteModal={handleNoteModal} noteModal={NoteModal} />
