@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import * as NotesApi from "../network/notes_funcs";
 
 interface ModalProps {
   handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
@@ -12,9 +13,17 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(titleRef?.current?.value, textRef.current?.value);
+
+    if (noteModal.type === "create") {
+      const res = await NotesApi.createNote({
+        title: titleRef.current?.value as string,
+        text: textRef?.current?.value,
+      });
+
+      console.log(res);
+    }
   }
 
   return (
@@ -70,9 +79,9 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
                   Text
                 </label>
                 <textarea
+                  defaultValue=" "
                   placeholder="Note Text"
                   rows={5}
-                  required
                   className="w-full rounded-lg border border-gray-600 outline-none"
                   ref={textRef}
                 />
