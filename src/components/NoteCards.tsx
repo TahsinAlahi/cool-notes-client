@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
+import * as NotesApi from "../network/notes_funcs";
 
 function NoteCards() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -7,12 +8,12 @@ function NoteCards() {
   useEffect(() => {
     async function getNotes() {
       try {
-        const res = await fetch("/api/notes", { method: "GET" });
-        const data = await res.json();
+        const data = await NotesApi.fetchNote();
 
         setNotes(data);
       } catch (error) {
         console.log(error);
+        alert(error);
       }
     }
 
