@@ -1,10 +1,6 @@
 import Card from "./Card";
 import { useNoteContext } from "../contexts/noteContext";
 
-interface NoteCardsProps {
-  handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
-}
-
 function NoteCards({ handleNoteModal }: NoteCardsProps) {
   const { notes } = useNoteContext();
 

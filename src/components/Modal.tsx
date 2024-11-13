@@ -2,14 +2,6 @@ import { useRef } from "react";
 import * as NotesApi from "../network/notes_funcs";
 import { useNoteContext } from "../contexts/noteContext";
 
-interface ModalProps {
-  handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
-  noteModal: {
-    type: "create" | "update" | null;
-    isOpen: boolean;
-  };
-}
-
 function Modal({ handleNoteModal, noteModal }: ModalProps) {
   const { handleUpdateOrNewNote } = useNoteContext();
 

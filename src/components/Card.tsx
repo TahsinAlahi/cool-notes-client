@@ -2,11 +2,6 @@ import { useNoteContext } from "../contexts/noteContext";
 import { deleteNote } from "../network/notes_funcs";
 import { dateFormatter } from "../utils/dateFormatter";
 
-interface CardProps {
-  handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
-  note: Note;
-}
-
 function Card({ note, handleNoteModal }: CardProps) {
   const { handleUpdateOrNewNote } = useNoteContext();
   let createdUpdatedTime: string;
