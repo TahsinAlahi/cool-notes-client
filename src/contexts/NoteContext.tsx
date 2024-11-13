@@ -10,6 +10,7 @@ const NoteContext = createContext<Context | undefined>(undefined);
 
 function NoteProvider({ children }: { children: React.ReactNode }) {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [editNote, setEditNote] = useState<Note | null>(null);
 
   useEffect(() => {
     async function getNotes() {

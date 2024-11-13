@@ -2,9 +2,18 @@ import { useNoteContext } from "../contexts/noteContext";
 import { deleteNote } from "../network/notes_funcs";
 import { dateFormatter } from "../utils/dateFormatter";
 
-function Card({ note }: { note: Note }) {
+interface CardProps {
+  handleNoteModal: (type: "create" | "update" | null, action: boolean) => void;
+  note: Note;
+}
+
+function Card({ note, handleNoteModal }: CardProps) {
   const { handleUpdateOrNewNote } = useNoteContext();
   let createdUpdatedTime: string;
+
+  function handleCardClick() {
+    handleNoteModal("update", true);
+  }
 
   if (note.updatedAt > note.createdAt) {
     createdUpdatedTime = "Updated: " + dateFormatter(note.updatedAt);
@@ -24,7 +33,10 @@ function Card({ note }: { note: Note }) {
   }
 
   return (
-    <div className="flex h-56 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-yellow-100/70 p-3 text-left shadow transition-shadow duration-150 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
+    <div
+      className="flex h-56 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-yellow-100/70 p-3 text-left shadow transition-shadow duration-150 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
+      onClick={handleCardClick}
+    >
       <div className="mb-3 flex items-center justify-between gap-5">
         <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
           {note.title}

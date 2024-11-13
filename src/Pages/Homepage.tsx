@@ -31,7 +31,7 @@ function Homepage() {
       >
         All new note
       </button>
-      <NoteCards />
+      <NoteCards handleNoteModal={handleNoteModal} />
       {NoteModal.isOpen && (
         <Modal handleNoteModal={handleNoteModal} noteModal={NoteModal} />
       )}
