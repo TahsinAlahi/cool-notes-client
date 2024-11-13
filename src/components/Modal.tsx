@@ -3,7 +3,9 @@ import * as NotesApi from "../network/notes_funcs";
 import { useNoteContext } from "../contexts/noteContext";
 
 function Modal({ handleNoteModal, noteModal }: ModalProps) {
-  const { handleUpdateOrNewNote } = useNoteContext();
+  const { handleUpdateOrNewNote, editNote } = useNoteContext();
+
+  const isNoteCreateType = noteModal.type === "create";
 
   const titleRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
@@ -17,9 +19,14 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
         text: textRef?.current?.value,
       });
       handleUpdateOrNewNote(res, "create");
-
-      handleNoteModal(null, false);
+    } else if (noteModal.type === "update") {
+      const res = await NotesApi.updateNote(editNote?._id as string, {
+        title: titleRef.current?.value as string,
+        text: textRef.current?.value as string,
+      });
+      handleUpdateOrNewNote(res, "update");
     }
+    handleNoteModal(null, false);
   }
 
   return (
@@ -29,7 +36,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
           <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
             <div className="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                {noteModal.type === "create" ? "Create Note" : "Update Note"}
+                {isNoteCreateType ? "Create Note" : "Update Note"}
               </h3>
               <button
                 type="button"
@@ -68,6 +75,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
                   required
                   className="w-full rounded-lg border border-gray-600 outline-none"
                   ref={titleRef}
+                  defaultValue={isNoteCreateType ? "" : editNote?.title}
                 />
               </div>
               <div className="flex w-3/4 flex-col gap-1">
@@ -75,7 +83,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
                   Text
                 </label>
                 <textarea
-                  defaultValue=" "
+                  defaultValue={isNoteCreateType ? "" : editNote?.text}
                   placeholder="Note Text"
                   rows={5}
                   className="w-full rounded-lg border border-gray-600 outline-none"
@@ -83,7 +91,7 @@ function Modal({ handleNoteModal, noteModal }: ModalProps) {
                 />
               </div>
               <button className="mt-4 rounded-2xl bg-blue-700 px-7 py-1 text-lg font-semibold text-white hover:bg-blue-800 md:px-12">
-                Submit
+                {isNoteCreateType ? "Create Note" : "Update Note"}
               </button>
             </form>
           </div>

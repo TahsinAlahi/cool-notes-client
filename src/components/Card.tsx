@@ -3,11 +3,12 @@ import { deleteNote } from "../network/notes_funcs";
 import { dateFormatter } from "../utils/dateFormatter";
 
 function Card({ note, handleNoteModal }: CardProps) {
-  const { handleUpdateOrNewNote } = useNoteContext();
+  const { handleUpdateOrNewNote, setEditNote } = useNoteContext();
   let createdUpdatedTime: string;
 
   function handleCardClick() {
     handleNoteModal("update", true);
+    setEditNote(note);
   }
 
   if (note.updatedAt > note.createdAt) {
