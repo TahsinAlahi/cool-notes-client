@@ -10,7 +10,7 @@ interface Modal {
 }
 
 function Homepage() {
-  const { isNotesLoading, notes } = useNoteContext();
+  const { isNotesLoading, notes, isNotesError } = useNoteContext();
 
   const [NoteModal, setNoteModal] = useState<Modal>({
     type: null,
@@ -28,6 +28,14 @@ function Homepage() {
   }
 
   if (isNotesLoading) return <Loader />;
+  if (!isNotesLoading && isNotesError)
+    return (
+      <p className="text-center text-xl font-semibold">
+        Something went wrong 💔
+        <br />
+        Please try again later 😔
+      </p>
+    );
 
   return (
     <div className="md:min-h-[calc(100vh-84px)] lg:mx-auto lg:max-w-screen-lg">
@@ -37,13 +45,7 @@ function Homepage() {
       >
         All new note
       </button>
-      {notes.length === 0 ? (
-        <p className="mt-5 w-full text-center text-xl font-semibold">
-          You don't have any notes yet
-        </p>
-      ) : (
-        <NoteCards handleNoteModal={handleNoteModal} />
-      )}
+      {<NoteCards handleNoteModal={handleNoteModal} />}
 
       {NoteModal.isOpen && (
         <Modal handleNoteModal={handleNoteModal} noteModal={NoteModal} />

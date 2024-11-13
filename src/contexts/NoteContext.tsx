@@ -28,7 +28,7 @@ function NoteProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         setIsNotesError(true);
         console.log(error);
-        alert(error);
+        // alert(error);
       } finally {
         setIsNotesLoading(false);
       }
