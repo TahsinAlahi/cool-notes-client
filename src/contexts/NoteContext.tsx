@@ -6,6 +6,8 @@ interface Context {
   handleUpdateOrNewNote: (note: Note, method: string) => void;
   setEditNote: (note: Note | null) => void;
   editNote: Note | null;
+  isNotesLoading: boolean;
+  isNotesError: boolean;
 }
 
 const NoteContext = createContext<Context | undefined>(undefined);
@@ -13,16 +15,22 @@ const NoteContext = createContext<Context | undefined>(undefined);
 function NoteProvider({ children }: { children: React.ReactNode }) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [editNote, setEditNote] = useState<Note | null>(null);
+  const [isNotesLoading, setIsNotesLoading] = useState(false);
+  const [isNotesError, setIsNotesError] = useState(false);
 
   useEffect(() => {
     async function getNotes() {
+      setIsNotesLoading(true);
+      setIsNotesError(false);
       try {
         const data = await NotesApi.fetchNote();
-
         setNotes(data);
       } catch (error) {
+        setIsNotesError(true);
         console.log(error);
         alert(error);
+      } finally {
+        setIsNotesLoading(false);
       }
     }
 
@@ -39,7 +47,14 @@ function NoteProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const value = { notes, handleUpdateOrNewNote, setEditNote, editNote };
+  const value = {
+    notes,
+    handleUpdateOrNewNote,
+    setEditNote,
+    editNote,
+    isNotesLoading,
+    isNotesError,
+  };
 
   return <NoteContext.Provider value={value}>{children}</NoteContext.Provider>;
 }
